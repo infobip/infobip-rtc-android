@@ -64,6 +64,15 @@ There are also three permissions with the `normal` protection level that are inc
 - [`INTERNET`](https://developer.android.com/reference/android/Manifest.permission.html#INTERNET)
 - [`MODIFY_AUDIO_SETTINGS`](https://developer.android.com/reference/android/Manifest.permission.html#MODIFY_AUDIO_SETTINGS)
 
+### Getting an InfobipRTC instance
+
+To utilize all the functionalities of InfobipRTC client, you need to obtain an instance of InfobipRTC interface.
+This is done via [`getInstance`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC#get-instance) method:
+
+```java
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+```
+
 ### Making a WebRTC call
 
 You can call another WebRTC endpoint if you know their identity.
@@ -71,6 +80,8 @@ This is done via [`callWebrtc`](https://github.com/infobip/infobip-rtc-android/w
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 CallWebrtcRequest callWebrtcRequest = new CallWebrtcRequest(
     token,
     getApplicationContext(),
@@ -78,13 +89,15 @@ CallWebrtcRequest callWebrtcRequest = new CallWebrtcRequest(
     new DefaultWebrtcCallEventListener()
 );
 
-WebrtcCall call = InfobipRTC.callWebrtc(callWebrtcRequest);
+WebrtcCall call = infobipRTC.callWebrtc(callWebrtcRequest);
 ```
 
 Or if you want to initiate video call:  
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 CallWebrtcRequest callWebrtcRequest = new CallWebrtcRequest(
     token,
     getApplicationContext(),
@@ -93,7 +106,7 @@ CallWebrtcRequest callWebrtcRequest = new CallWebrtcRequest(
 );
 WebrtcCallOptions webrtcCallOptions = WebrtcCallOptions.builder().video(true).build();
 
-WebrtcCall call = InfobipRTC.callWebrtc(callWebrtcRequest, webrtcCallOptions);
+WebrtcCall call = infobipRTC.callWebrtc(callWebrtcRequest, webrtcCallOptions);
 ```
 
 As you can see, [`callWebrtc`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC#call-webrtc) method returns an instance of
@@ -372,6 +385,8 @@ such as muting the call, hanging it up, checking its start time, answer time, du
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 CallPhoneRequest callPhoneRequest = new CallPhoneRequest(
     token,
     getApplicationContext(),
@@ -380,7 +395,7 @@ CallPhoneRequest callPhoneRequest = new CallPhoneRequest(
 );
 PhoneCallOptions phoneCallOptions = PhoneCallOptions.builder().from("33712345678").build();
 
-PhoneCall call = InfobipRTC.callPhone(callPhoneRequest, phoneCallOptions);
+PhoneCall call = infobipRTC.callPhone(callPhoneRequest, phoneCallOptions);
 ```
 
 ### Making a Viber call
@@ -395,6 +410,8 @@ muting the call, hanging it up, checking its start time, answer time, duration a
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 CallViberRequest callViberRequest = new CallViberRequest(
     token,
     getApplicationContext(),
@@ -403,7 +420,7 @@ CallViberRequest callViberRequest = new CallViberRequest(
     new DefaultViberCallEventListener()
 );
 
-ViberCall call = InfobipRTC.callViber(callViberRequest);
+ViberCall call = infobipRTC.callViber(callViberRequest);
 ```
 
 ### Receiving a WebRTC call
@@ -430,7 +447,9 @@ This is an example how to listen for push notifications:
 
 ```java
 String token = obtainToken();
-InfobipRTC.enablePushNotification(
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
+infobipRTC.enablePushNotification(
     token,
     getApplicationContext()
 );
@@ -440,10 +459,12 @@ After which you can handle an incoming call in your application as shown below:
 
 ```java
 class FcmService extends FirebaseMessagingService {
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> payload = remoteMessage.getData();
-        InfobipRTC.handleIncomingCall(
+        infobipRTC.handleIncomingCall(
             payload,
             getAplicationContext(),
             new IncomingCallEventListener() {
@@ -488,7 +509,9 @@ We recommend the first approach.
 
 ```java
 String token = obtainToken();
-InfobipRTC.registerForActiveConnection(
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
+infobipRTC.registerForActiveConnection(
     token,
     getApplicationContext(),
     new IncomingCallEventListener() {
@@ -512,19 +535,24 @@ Joining the Room is done via the [`joinRoom`](https://github.com/infobip/infobip
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 RoomRequest roomRequest = new RoomRequest(
     getApplicationContext(), 
     "room-demo", 
     token,
     new DefaultRoomCallEventListener()
 );
-RoomCall roomCall = InfobipRTC.joinRoom(roomRequest);
+
+RoomCall roomCall = infobipRTC.joinRoom(roomRequest);
 ```
 
 Also, You can join the room with video:
 
 ```java
 String token = obtainToken();
+InfobipRTC infobipRTC = InfobipRTC.getInstance();
+
 RoomRequest roomRequest = new RoomRequest(
     getApplicationContext(), 
     "room-demo", 
@@ -533,7 +561,7 @@ RoomRequest roomRequest = new RoomRequest(
 );
 RoomCallOptions options = RoomCallOptions.builder().video(true).build()
 
-RoomCall roomCall = InfobipRTC.joinRoom(roomRequest, options);
+RoomCall roomCall = infobipRTC.joinRoom(roomRequest, options);
 ```
 
 After the participant successfully joined the room, the [`RoomJoinedEvent`](https://github.com/infobip/infobip-rtc-android/wiki/RoomJoinedEvent) event, with a list of
