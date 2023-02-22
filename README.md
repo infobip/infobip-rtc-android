@@ -3,7 +3,7 @@
 Following the major release of our new RTC SDK 2.0, we are deprecating the SDK 1.x releases. The SDK 1.x will be out of
 service on 31/10/2023. All new WebRTC customers must use the SDK 2.x, and customers still using SDK 1.x must migrate
 to the newer release before the end of service date. To migrate from RTC SDK 1.x to 2.x, consult our
-[migration guides](https://github.com/infobip/infobip-rtc-android/wiki/Migration-guides).
+[migration guides](https://github.com/infobip/infobip-rtc-android/wiki/Migration-overview).
 
 The deprecated [SDK 1.x Github repository](https://github.com/infobip/infobip-rtc-android-1.x-deprecated) can still be
 consulted until the end of service date.
