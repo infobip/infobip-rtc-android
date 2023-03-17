@@ -492,7 +492,7 @@ We implemented an Android service named `FcmTokenRefresher` that handles changes
 ```xml
 <application>
     <service
-        android:name="com.infobip.webrtc.sdk.impl.fcm.FcmTokenRefresher"
+        android:name="com.infobip.webrtc.sdk.impl.push.FcmTokenRefresher"
         android:exported="false" />
 </application>
 ```
