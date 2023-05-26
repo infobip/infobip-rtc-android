@@ -52,17 +52,60 @@ You will receive the token in a response that you will use to make and receive c
 
 ### Permissions
 
-The only `dangerous` SDK permissions needed are the
-[`RECORD_AUDIO`](https://developer.android.com/reference/android/Manifest.permission.html#RECORD_AUDIO)
-and [`CAMERA`](https://developer.android.com/reference/android/Manifest.permission#CAMERA) permissions.
-That means you need to ask for them in runtime, inside your application.
-Here is how you can do that for [record audio](https://developer.android.com/reference/android/Manifest.permission.html#RECORD_AUDIO) and
-how for [camera](https://developer.android.com/reference/android/Manifest.permission#CAMERA).
-There are also three permissions with the `normal` protection level that are included in the SDK's manifest:
+The permissions included in the SDK's manifest with the `dangerous` protection level are as follows:
+
+- [`RECORD_AUDIO`](https://developer.android.com/reference/android/Manifest.permission.html#RECORD_AUDIO)
+- [`CAMERA`](https://developer.android.com/reference/android/Manifest.permission#CAMERA)
+- [`BLUETOOTH_CONNECT`](https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH_CONNECT)
+
+These permissions need to be requested at runtime inside your application.
+
+On Android 12 or higher,
+the [`BLUETOOTH_CONNECT`](https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH_CONNECT)
+permission is required to use bluetooth audio devices. The permission must be granted before making a call. There is no
+need to request this permission on Android 11 or lower.
+
+To request these permissions, you can use the following code:
+
+```java
+public class MainActivity {
+    private void requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (permissionNotGranted(BLUETOOTH_CONNECT) || permissionNotGranted(RECORD_AUDIO) || permissionNotGranted(CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        RECORD_AUDIO,
+                        CAMERA,
+                        BLUETOOTH_CONNECT
+                }, 200);
+            }
+        } else {
+            if (permissionNotGranted(RECORD_AUDIO) || permissionNotGranted(CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        RECORD_AUDIO,
+                        CAMERA
+                }, 200);
+            }
+        }
+    }
+
+    private boolean permissionNotGranted(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission) != PERMISSION_GRANTED;
+    }
+}
+```
+
+> If you would like a more detailed explanation about requesting runtime permissions in Android, you can visit the
+> following link: [Requesting Permissions](https://developer.android.com/training/permissions/requesting).
+
+Additionally, the SDK's manifest includes permissions with the `normal` protection level, which are as follows:
 
 - [`ACCESS_NETWORK_STATE`](https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_NETWORK_STATE)
 - [`INTERNET`](https://developer.android.com/reference/android/Manifest.permission.html#INTERNET)
-- [`MODIFY_AUDIO_SETTINGS`](https://developer.android.com/reference/android/Manifest.permission.html#MODIFY_AUDIO_SETTINGS)
+- [`MODIFY_AUDIO_SETTINGS`](https://developer.android.com/reference/android/Manifest.permission#MODIFY_AUDIO_SETTINGS)
+- [`WAKE_LOCK`](https://developer.android.com/reference/android/Manifest.permission.html#WAKE_LOCK)
+- [`BLUETOOTH`](https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH)
+
+These permissions are automatically granted to the SDK and do not require additional runtime checks or requests.
 
 ### Getting an InfobipRTC instance
 
@@ -251,6 +294,10 @@ call the [`speakerphone`](https://github.com/infobip/infobip-rtc-android/wiki/Ca
 boolean isSpeakerphoneEnabled = webrtcCall.speakerphone();
 ```
 
+_To have better control over all connected audio devices, such as bluetooth or wired headsets, you can utilize
+the [`AudioDeviceManager`](https://github.com/infobip/infobip-rtc-android/wiki/Call#audioDeviceManager) which allows you
+to manage and monitor audio device changes during a call._
+
 Also, you can check the [`call status`](https://github.com/infobip/infobip-rtc-android/wiki/CallStatus):
 
 ```java
@@ -289,7 +336,6 @@ Then, in your code, set up these renderers:
 ```java
 
 @Override
-
 protected void onCreate(Bundle savedInstanceState) {
     //...
     VideoRenderer localVideoRenderer = findViewById(R.id.local_video);
@@ -744,8 +790,6 @@ protected void onCreate(Bundle savedInstanceState) {
     remoteVideoRenderer.init();
     remoteVideoRenderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
 }
-
-...
 
 @Override
 public void onParticipantCameraVideoAdded(ParticipantCameraVideoAddedEvent participantCameraVideoAddedEvent) {
