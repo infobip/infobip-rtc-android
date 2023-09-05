@@ -44,7 +44,7 @@ When we have the subscriber's identity, we can generate a token assigned to that
 With that token, your subscribers can connect to our platform (using Infobip RTC SDK).
 
 To generate these tokens for your subscribers, you need to call our
-[`/webrtc/1/token`](https://dev.infobip.com/webrtc/generate-token) HTTP API method using proper parameters.
+[`/webrtc/1/token`](https://www.infobip.com/docs/api/channels/webrtc-calls/webrtc/generate-webrtc-token) HTTP API method using proper parameters.
 There you authenticate yourself against Infobip platform, so we can relate the subscriber's token to you.
 Typically, generating a token occurs after your subscribers are authenticated inside your application.
 You will receive the token in a response that you will use to make and receive calls via
@@ -475,7 +475,8 @@ There are two ways of receiving a call. Each one requires you to listen for inco
 
 #### Receiving a call via push notification
 
-> Note: In order for push notifications to work, they have to be enabled for your application, as explained in [the documentation](https://www.infobip.com/docs/voice-and-video/web-and-in-app-calls#create-and-configure-applicationhttps://www.infobip.com/docs/voice-and-video/web-and-in-app-calls#create-and-configure-application).
+> Note: In order for push notifications to work, they have to be enabled for your application, as explained in 
+> [the documentation](https://www.infobip.com/docs/voice-and-video/webrtc#declare-a-webrtc-application-getstartedwith-rtc-sdk). 
 
 The first way is to listen for push notifications which we send from our platform on your behalf to the correct device and in that case you
 need to provide us your FCM server key.
@@ -494,11 +495,7 @@ This is an example how to listen for push notifications:
 ```java
 String token = obtainToken();
 InfobipRTC infobipRTC = InfobipRTC.getInstance();
-
-infobipRTC.enablePushNotification(
-    token,
-    getApplicationContext()
-);
+infobipRTC.enablePushNotification(token, getApplicationContext(), "454d142b-a1ad-239a-d231-227fa335aadc3");
 ```
 
 After which you can handle an incoming call in your application as shown below:
@@ -527,10 +524,11 @@ InfobipRTC infobipRTC = InfobipRTC.getInstance();
 }
 ```
 
-If you take a closer look at how to implement FCM in your application,
-you will see that there is a unique device token associated with one app installation on a single device.
-When you call the [`enablePushNotification`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC#enable-push-notification) method
-on a device, we take that device's token and associate it with an identity on our Infobip WebRTC platform.
+If you take a closer look at how to implement FCM in your application, you will see that there is a unique device token
+associated with one app installation on a single device. When you call
+the [`enablePushNotification`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC#enable-push-notification)
+method on a device, we take that device's token and associate it with an identity and provided push configuration on our
+Infobip WebRTC platform.
 
 As device tokens can change during app lifetime, you need to handle these changes.
 We implemented an Android service named `FcmTokenRefresher` that handles changes, you just need to include it in your app's manifest:
