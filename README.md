@@ -22,14 +22,15 @@ Here you will find an overview and a quick guide on how to connect to Infobip pl
 In order to use Infobip RTC, you need to have Web and In-app Calls enabled on your account and that's it!
 You are ready to make Web and In-app calls. To learn how to enable them see [the documentation](https://www.infobip.com/docs/voice-and-video/webrtc#set-up-web-and-in-app-calls).
 
-### Getting SDK
+### Getting the SDK
 
-You can get our SDK through Gradle dependency which you pull from the Maven Central repository. Just add this snippet to your `build.gradle`:
+To acquire our SDK via Gradle dependency from the Maven Central repository, simply add the following snippet to your
+`build.gradle` file:
 
 ```groovy
 dependencies {
-    implementation ('com.infobip:infobip-rtc:+@aar') {
-            transitive = true
+    implementation('com.infobip:infobip-rtc:+@aar') {
+        transitive = true
     }
 }
 ```
@@ -334,7 +335,6 @@ You can use `com.infobip.webrtc.sdk.api.video.VideoRenderer` class to display re
 Then, in your code, set up these renderers:
 
 ```java
-
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     //...
