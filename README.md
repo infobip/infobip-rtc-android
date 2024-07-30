@@ -1,26 +1,19 @@
-### WebRTC SDK 1.x deprecation
-
-Following the major release of our new RTC SDK 2.0, we are deprecating the SDK 1.x releases. The SDK 1.x will be out of
-service on 31/10/2023. All new WebRTC customers must use the SDK 2.x, and customers still using SDK 1.x must migrate
-to the newer release before the end of service date. To migrate from RTC SDK 1.x to 2.x, consult our
-[migration guides](https://github.com/infobip/infobip-rtc-android/wiki/Migration-overview).
-
-The deprecated [SDK 1.x Github repository](https://github.com/infobip/infobip-rtc-android-1.x-deprecated) can still be
-consulted until the end of service date.
-
 ### Introduction
 
-Infobip RTC is an Android SDK which enables you to take advantage of Infobip platform since it gives you the ability to enrich
-your Android applications with real-time communications in minimum time, allowing you to focus on your application's user experience and business logic.
-We currently support WebRTC calls between two web or app users, phone calls between a web or app user and
-a phone endpoint, Viber calls, calls to the Infobip Conversations platform, as well as Room calls - calls with multiple participants.
+Infobip RTC is an Android SDK which enables you to take advantage of Infobip platform since it gives you the ability to
+enrich your Android applications with real-time communications in minimum time, allowing you to focus on your
+application's user experience and business logic. We currently support WebRTC calls between two web or app users, phone
+calls between a web or app user and a phone endpoint, Viber calls, calls to the Infobip Conversations platform, as well
+as Room calls - calls with multiple participants.
 
-Here you will find an overview and a quick guide on how to connect to Infobip platform. There is also an in-depth reference documentation available.
+Here you will find an overview and a quick guide on how to connect to Infobip platform. There is also an in-depth
+reference documentation available.
 
 ### First-time setup
 
 In order to use Infobip RTC, you need to have Web and In-app Calls enabled on your account and that's it!
-You are ready to make Web and In-app calls. To learn how to enable them see [the documentation](https://www.infobip.com/docs/voice-and-video/webrtc#set-up-web-and-in-app-calls).
+You are ready to make Web and In-app calls. To learn how to enable them
+see [the documentation](https://www.infobip.com/docs/voice-and-video/webrtc#set-up-web-and-in-app-calls).
 
 ### Getting the SDK
 
@@ -38,18 +31,18 @@ dependencies {
 ### Authentication
 
 Since Infobip RTC is an SDK, it means you develop your own application, and you only use Infobip RTC as a dependency.
-Your application has your own users, which we will call subscribers throughout this guide. So, in order to use Infobip RTC,
-you need to register your subscribers on our platform. The credentials your subscribers use to connect to
-your application are irrelevant to Infobip. We only need the identity they will use to present themselves.
-When we have the subscriber's identity, we can generate a token assigned to that specific subscriber.
-With that token, your subscribers can connect to our platform (using Infobip RTC SDK).
+Your application has your own users, which we will call subscribers throughout this guide. So, in order to use Infobip
+RTC, you need to register your subscribers on our platform. The credentials your subscribers use to connect to your
+application are irrelevant to Infobip. We only need the identity they will use to present themselves. When we have the
+subscriber's identity, we can generate a token assigned to that specific subscriber. With that token, your subscribers
+can connect to our platform (using Infobip RTC SDK).
 
 To generate these tokens for your subscribers, you need to call our
-[`/webrtc/1/token`](https://www.infobip.com/docs/api/channels/webrtc-calls/webrtc/generate-webrtc-token) HTTP API method using proper parameters.
-There you authenticate yourself against Infobip platform, so we can relate the subscriber's token to you.
-Typically, generating a token occurs after your subscribers are authenticated inside your application.
-You will receive the token in a response that you will use to make and receive calls via
-[`InfobipRTC`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC) client in your Android application.
+[`/webrtc/1/token`](https://www.infobip.com/docs/api/channels/webrtc-calls/webrtc/generate-webrtc-token) HTTP API method
+using proper parameters. There you authenticate yourself against Infobip platform, so we can relate the subscriber's
+token to you. Typically, generating a token occurs after your subscribers are authenticated inside your application. You
+will receive the token in a response that you will use to make and receive calls
+via [`InfobipRTC`](https://github.com/infobip/infobip-rtc-android/wiki/InfobipRTC) client in your Android application.
 
 ### Permissions
 
